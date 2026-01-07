@@ -9,7 +9,7 @@ if st.button("Send"):
         import requests
 
         response = requests.post(
-            "http://localhost:8000/chat",
+            "https://agentic-career-mentor.onrender.com",
             json={"message": user_input}
         )
         if response.status_code == 200:
@@ -32,4 +32,5 @@ if add_selectbox == "About":
 elif add_selectbox == "Contact":
     st.sidebar.title("Contact")
     st.sidebar.info(
+
         "For any questions or support, please contact us at help@careermentor.com.")
