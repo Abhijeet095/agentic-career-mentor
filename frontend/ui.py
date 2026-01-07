@@ -2,7 +2,7 @@ import streamlit as st
 
 st.title("Career Mentor Chatbot")
 st.write("Welcome to the Career Mentor Chatbot! Ask me anything about career advice.", )
-BACKEND_URL = "https://agentic-career-mentor-backend.onrender.com/chat"
+BACKEND_URL = "https://agentic-career-mentor.onrender.com/chat"
 
 
 user_input = st.text_input("What you want to ask: ", "")
@@ -37,5 +37,6 @@ elif add_selectbox == "Contact":
     st.sidebar.info(
 
         "For any questions or support, please contact us at help@careermentor.com.")
+
 
 
