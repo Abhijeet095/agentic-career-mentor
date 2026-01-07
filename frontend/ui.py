@@ -2,6 +2,8 @@ import streamlit as st
 
 st.title("Career Mentor Chatbot")
 st.write("Welcome to the Career Mentor Chatbot! Ask me anything about career advice.", )
+BACKEND_URL = "https://agentic-career-mentor-backend.onrender.com/chat"
+
 
 user_input = st.text_input("What you want to ask: ", "")
 if st.button("Send"):
@@ -9,8 +11,9 @@ if st.button("Send"):
         import requests
 
         response = requests.post(
-            "https://agentic-career-mentor-backend.onrender.com/chat",
-            json={"message": user_input}
+            BACKEND_URL,
+            json={"message": user_input},
+            timeout = 60
         )
         if response.status_code == 200:
             reply = response.json().get("reply")
@@ -34,4 +37,5 @@ elif add_selectbox == "Contact":
     st.sidebar.info(
 
         "For any questions or support, please contact us at help@careermentor.com.")
+
 
