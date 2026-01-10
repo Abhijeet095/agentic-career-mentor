@@ -20,7 +20,8 @@ def planner_prompt(user_goal: str):
             "content": (
                 "You are a planning agent. "
                 "Your job is to break a user's goal into clear, "
-                "actionable steps. Output the plan in structured JSON format."
+                "Return the plan in clear, well formatted plain english text."
+                 "Do not use bullet JSON."
             )
         },
         {
@@ -56,3 +57,4 @@ def plan(req: PlanRequest) -> Dict:
     return {
         "plan": response.choices[0].message.content
     }
+
