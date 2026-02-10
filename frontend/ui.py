@@ -4,16 +4,16 @@ import requests
 st.title("Career Mentor Chatbot")
 st.write("Welcome to the Career Mentor Chatbot! Ask me anything about career advice.")
 
-# ✅ 1. Initialize session state FIRST
+#  1. Initialize session state FIRST
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# ✅ 2. Display previous messages
+#  2. Display previous messages
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# ✅ 3. Mode selector
+#  3. Mode selector
 mode = st.radio(
     "Choose Mode",
     ["Chat with Mentor", "Get Career Plan (Agent)"]
@@ -23,7 +23,7 @@ mode = st.radio(
 CHAT_URL = "https://agentic-career-mentor.onrender.com/chat"
 PLAN_URL = "https://agentic-career-mentor.onrender.com/plan"
 
-# ✅ 4. Chat input (NO button needed)
+#  4. Chat input (NO button needed)
 user_input = st.chat_input("Ask your question or enter your goal...")
 
 if user_input:
@@ -82,3 +82,35 @@ if add_selectbox == "About":
 elif add_selectbox == "Contact":
     st.sidebar.title("Contact")
     st.sidebar.info("Contact: help@careermentor.com")
+
+# task section
+st.sidebar.title("📋 Tasks")
+
+TASKS_URL = "https://agentic-career-mentor.onrender.com/tasks"
+
+try:
+    task_response = requests.get(TASKS_URL, timeout=30)
+    tasks = task_response.json().get("tasks", [])
+
+    if not tasks:
+        st.sidebar.info("No tasks yet.")
+    else:
+        for task in tasks:
+            checkbox_key = f"task_{task['id']}"
+
+            checked = task["status"] == "done"
+
+            if st.sidebar.checkbox(
+                task["task"],
+                value=checked,
+                key=checkbox_key
+            ):
+                if task["status"] != "done":
+                    requests.post(
+                        f"{TASKS_URL}/{task['id']}/done",
+                        timeout=30
+                    )
+                    st.sidebar.success("Task marked as done!")
+
+except Exception as e:
+    st.sidebar.error("Could not load tasks")
