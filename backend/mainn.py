@@ -5,6 +5,8 @@ import os
 from typing import Dict, Optional
 from memory import init_db, save_plan, get_latest_plan
 from memory import add_task, get_tasks, complete_task
+from memory import clear_tasks
+
 
 
 init_db()
@@ -149,3 +151,8 @@ def view_tasks():
 def mark_done(task_id: int):
     complete_task(task_id)
     return {"message": "Task marked as completed"}
+
+@app.delete("/tasks")
+def delete_all_tasks():
+    clear_tasks()
+    return {"message": "All tasks cleared"}
