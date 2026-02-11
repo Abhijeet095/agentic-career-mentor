@@ -96,3 +96,13 @@ def complete_task(task_id: int):
 
     conn.commit()
     conn.close()
+
+
+def clear_tasks():
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM tasks")
+
+    conn.commit()
+    conn.close()
