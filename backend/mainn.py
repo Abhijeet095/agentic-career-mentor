@@ -54,16 +54,21 @@ def chat_prompt(user_message: str, memory: Optional[dict], tasks: list):
         }
     ]
 
-
 def planner_prompt(user_goal: str):
     return [
         {
             "role": "system",
             "content": (
-                "You are a planning agent. "
-                "Your job is to break a user's goal into clear, "
-                "Return the plan in clear, well formatted plain english text."
-                 "Do not use bullet JSON."
+                "You are a planning agent.\n"
+                "Create a clear career plan.\n\n"
+                "IMPORTANT:\n"
+                "1. First write the detailed plan in plain text.\n"
+                "2. Then at the end write a section exactly like this:\n\n"
+                "TASK_LIST:\n"
+                "- Task 1\n"
+                "- Task 2\n"
+                "- Task 3\n\n"
+                "Keep tasks short and actionable."
             )
         },
         {
@@ -71,6 +76,7 @@ def planner_prompt(user_goal: str):
             "content": f"Goal: {user_goal}"
         }
     ]
+
 
 @app.get("/")
 def greeting():
@@ -92,9 +98,9 @@ def chat(req: ChatRequest):
     }
     
 
-
 @app.post("/plan")
-def plan(req: PlanRequest) -> Dict:
+def plan(req: PlanRequest):
+
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=planner_prompt(req.goal)
@@ -102,12 +108,26 @@ def plan(req: PlanRequest) -> Dict:
 
     plan_text = response.choices[0].message.content
 
+    # Save plan
     save_plan(req.goal, plan_text)
 
+    #  Extract tasks
+    if "TASK_LIST:" in plan_text:
+        task_section = plan_text.split("TASK_LIST:")[1]
+        lines = task_section.strip().split("\n")
+
+        for line in lines:
+            if line.startswith("-"):
+                task = line.replace("-", "").strip()
+                if task:
+                    add_task(task)
+
     return {
-    "goal": req.goal,
-    "plan": plan_text
+        "goal": req.goal,
+        "plan": plan_text
     }
+
+
 
 @app.get("/memory")
 def get_memory():
