@@ -83,6 +83,34 @@ elif add_selectbox == "Contact":
     st.sidebar.title("Contact")
     st.sidebar.info("Contact: help@careermentor.com")
 
+TASKS_URL = "https://agentic-career-mentor.onrender.com/tasks"
+
+if st.sidebar.button("🗑 Clear All Tasks"):
+    try:
+        response = requests.delete(TASKS_URL, timeout=30)
+        st.sidebar.write("Status Code:", response.status_code)
+        st.sidebar.write("Response:", response.text)
+
+        if response.status_code == 200:
+            st.sidebar.success("All tasks cleared!")
+            st.rerun()
+        else:
+            st.sidebar.error("Failed to clear tasks")
+
+    except Exception as e:
+        st.sidebar.error("Could not clear tasks")
+        st.sidebar.write(e)
+
+# if st.sidebar.button("🗑 Clear All Tasks"):
+#     try:
+#         requests.delete(TASKS_URL, timeout=30)
+#         st.sidebar.success("All tasks cleared!")
+#         st.rerun()
+#     except Exception as e:
+#         st.sidebar.error("Could not clear tasks")
+#         st.sidebar.write(e)
+
+
 # task section
 st.sidebar.title("📋 Tasks")
 
