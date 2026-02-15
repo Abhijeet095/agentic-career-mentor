@@ -1,23 +1,56 @@
 # Agentic AI Career Mentor
 
-An AI-powered career guidance system built using FastAPI, Streamlit, and Groq LLaMA models.
-This project is designed as a first version of an agentic AI system, with scope for adding
-planning, memory, and reflection capabilities in future iterations.
+An end-to-end Agentic AI system that generates personalized placement roadmaps, automatically extracts actionable tasks, tracks progress using persistent memory, and adapts recommendations based on user completion state.
+Built using FastAPI, Streamlit, Groq (LLaMA 3.1), and SQLite, and deployed on cloud platforms.
+
+Most placement preparation tools provide static roadmaps and generic advice. They lack:
+
+Personalized planning
+Persistent memory across sessions
+Execution tracking
+Adaptive recommendations
+
+This project implements a minimal agentic AI architecture that solves these limitations through planning, memory, and task-based execution tracking.
+
+
+##  Core Features
+- Goal-based career roadmap generatio
+- Automatic task extraction from AI-generated plans
+- Persistent memory using SQLite
+- Task completion tracking
+- Adaptive recommendations based on progress
+- Task reset functionality
+- Context-aware chat responses
+- Deployed backend (Render) & frontend (Streamlit Cloud)
 
 ---
 
-## 🚀 Features
-- AI-powered career mentoring chatbot
-- FastAPI backend integrated with Groq LLM
-- Streamlit-based frontend UI
-- Clean separation of frontend and backend
-- Secure API key handling using environment variables
-
----
-
-## 🛠 Tech Stack
+##  Tech Stack
 - Python
 - FastAPI
 - Streamlit
 - Groq API (LLaMA 3.1)
+- SQLite
 - REST APIs
+- Render
+- Streamlit Cloud
+
+
+## Agent Workflow
+Goal → Plan → Extract Tasks → Store → Track → Adapt → Replan
+
+
+# Note
+This project demonstrates a production-style minimal agentic AI architecture with:
+
+- Planning layer
+- Persistent memory layer
+- Execution tracking layer
+- Adaptive reasoning
+
+
+# Future Improvements
+- Multi-user authentication system
+- Reflection agent for weekly progress adjustment
+- Structured JSON task extraction
+- Vector-based semantic memory
